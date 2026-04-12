@@ -1,7 +1,7 @@
 package servlets.pckg.myapp;
 
-import dao.pckg.myapp.EventoDAO;
-import modelos.pckg.myapp.Evento;
+import dao.pckg.myapp.ReservaDAO;
+import modelos.pckg.myapp.Reserva;
 import modelos.pckg.myapp.Usuario;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -9,8 +9,8 @@ import jakarta.servlet.http.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
-@WebServlet("/AdminServlet")
-public class AdminServlet extends HttpServlet {
+@WebServlet("/MisReservasServlet")
+public class MisReservasServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -18,16 +18,16 @@ public class AdminServlet extends HttpServlet {
         HttpSession session = request.getSession(false);
         Usuario usuario = (Usuario) session.getAttribute("usuario");
 
-        if (usuario == null || !usuario.getRol().equals("Administrador")) {
+        if (usuario == null) {
             response.sendRedirect("login.jsp");
             return;
         }
 
-        EventoDAO dao = new EventoDAO();
-        ArrayList<Evento> eventos = dao.listar();
+        ReservaDAO dao = new ReservaDAO();
+        ArrayList<Reserva> reservas = dao.listarPorUsuario(usuario.getIdUsuario());
 
-        request.setAttribute("eventos", eventos);
-        request.getRequestDispatcher("admin.jsp").forward(request, response);
+        request.setAttribute("reservas", reservas);
+        request.getRequestDispatcher("panel-usuario.jsp").forward(request, response);
     }
 
     @Override

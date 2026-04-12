@@ -7,13 +7,8 @@ import java.util.ArrayList;
 
 public class EventoDAO {
 
-    private Conexion con;
-
-    public EventoDAO() {
-        con = new Conexion();
-    }
-
     public ArrayList<Evento> listar() {
+        Conexion con = new Conexion();
         ArrayList<Evento> lista = new ArrayList<>();
         try {
             String sql = "SELECT * FROM Eventos";
@@ -29,6 +24,7 @@ public class EventoDAO {
                 e.setEntradasTotales(rs.getInt("entradas_totales"));
                 e.setEntradasDisponibles(rs.getInt("entradas_disponibles"));
                 e.setPrecio(rs.getDouble("precio"));
+                e.setCategoria(rs.getString("categoria"));
                 lista.add(e);
             }
         } catch (Exception e) {
@@ -40,6 +36,7 @@ public class EventoDAO {
     }
 
     public Evento obtenerPorId(int id) {
+        Conexion con = new Conexion();
         try {
             String sql = "SELECT * FROM Eventos WHERE id_evento=" + id;
             ResultSet rs = con.ExecuteQuery(sql);
@@ -54,6 +51,7 @@ public class EventoDAO {
                 e.setEntradasTotales(rs.getInt("entradas_totales"));
                 e.setEntradasDisponibles(rs.getInt("entradas_disponibles"));
                 e.setPrecio(rs.getDouble("precio"));
+                e.setCategoria(rs.getString("categoria"));
                 return e;
             }
         } catch (Exception e) {
@@ -65,6 +63,7 @@ public class EventoDAO {
     }
 
     public void insertar(Evento e) {
+        Conexion con = new Conexion();
         try {
             ResultSet rsId = con.ExecuteQuery("SELECT COALESCE(MAX(id_evento), 0) + 1 FROM Eventos");
             int nuevoId = 1;
@@ -72,16 +71,17 @@ public class EventoDAO {
                 nuevoId = rsId.getInt(1);
             }
 
-            String sql = "INSERT INTO Eventos (id_evento, nombre, descripcion, fecha, foto, ubicacion, entradas_totales, entradas_disponibles, precio) VALUES ("
-                    + nuevoId + ", '"
-                    + e.getNombre() + "', '"
-                    + e.getDescripcion() + "', '"
-                    + e.getFecha() + "', '"
-                    + e.getFoto() + "', '"
-                    + e.getUbicacion() + "', "
-                    + e.getEntradasTotales() + ", "
-                    + e.getEntradasTotales() + ", "
-                    + e.getPrecio() + ")";
+            String sql = "INSERT INTO Eventos (id_evento, nombre, descripcion, fecha, foto, ubicacion, entradas_totales, entradas_disponibles, precio, categoria) VALUES ("
+            + nuevoId + ", '"
+            + e.getNombre() + "', '"
+            + e.getDescripcion() + "', '"
+            + e.getFecha() + "', '"
+            + e.getFoto() + "', '"
+            + e.getUbicacion() + "', "
+            + e.getEntradasTotales() + ", "
+            + e.getEntradasTotales() + ", "
+            + e.getPrecio() + ", '"
+            + e.getCategoria() + "')";
 
             con.ExecuteUpdate(sql);
         } catch (Exception ex) {
@@ -92,6 +92,7 @@ public class EventoDAO {
     }
 
     public void actualizar(Evento e) {
+        Conexion con = new Conexion();
         try {
             String sql = "UPDATE Eventos SET nombre='" + e.getNombre()
                     + "', descripcion='" + e.getDescripcion()
@@ -111,6 +112,7 @@ public class EventoDAO {
     }
 
     public void eliminar(int id) {
+        Conexion con = new Conexion();
         try {
             con.ExecuteUpdate("DELETE FROM Eventos WHERE id_evento=" + id);
         } catch (Exception ex) {

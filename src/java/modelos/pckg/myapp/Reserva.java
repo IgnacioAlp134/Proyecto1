@@ -8,6 +8,8 @@ public class Reserva {
     private String fechaReserva;
     private String codigoConfirmacion;
     private String estado;
+    private String nombreEvento;
+    private String zona;
 
     public Reserva() {}
 
@@ -56,4 +58,14 @@ public class Reserva {
         return estado; }
     public void setEstado(String estado) { 
         this.estado = estado; }
+   
+    public String getNombreEvento() { 
+        return nombreEvento; }
+    public void setNombreEvento(String nombreEvento) { 
+        this.nombreEvento = nombreEvento; }
+
+    public String getZona() { 
+        return zona; }
+    public void setZona(String zona) { 
+        this.zona = zona; }
 }

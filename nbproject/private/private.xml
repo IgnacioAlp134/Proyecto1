@@ -3,23 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/NetBeansClassK/Proyecto1/src/java/db/pckg/myapp/Conexion.java</file>
-            <file>file:/D:/NetBeansClassK/Proyecto1/src/java/modelos/pckg/myapp/Usuario.java</file>
-            <file>file:/D:/NetBeansClassK/Proyecto1/src/java/modelos/pckg/myapp/Evento.java</file>
-            <file>file:/D:/NetBeansClassK/Proyecto1/src/java/modelos/pckg/myapp/Reserva.java</file>
-            <file>file:/D:/NetBeansClassK/Proyecto1/web/login.jsp</file>
-            <file>file:/D:/NetBeansClassK/Proyecto1/web/eventos.jsp</file>
-            <file>file:/D:/NetBeansClassK/Proyecto1/web/evento-detalle.jsp</file>
-            <file>file:/D:/NetBeansClassK/Proyecto1/web/panel-usuario.jsp</file>
-            <file>file:/D:/NetBeansClassK/Proyecto1/web/admin.jsp</file>
-            <file>file:/D:/NetBeansClassK/Proyecto1/web/registro.jsp</file>
-            <file>file:/D:/NetBeansClassK/Proyecto1/src/java/dao/pckg/myapp/UsuarioDAO.java</file>
-            <file>file:/D:/NetBeansClassK/Proyecto1/src/java/servlets/pckg/myapp/EventosServlet.java</file>
-            <file>file:/D:/NetBeansClassK/Proyecto1/src/java/servlets/pckg/myapp/LoginServlet.java</file>
-            <file>file:/D:/NetBeansClassK/Proyecto1/src/java/servlets/pckg/myapp/LogoutServlet.java</file>
-            <file>file:/D:/NetBeansClassK/Proyecto1/src/java/servlets/pckg/myapp/RegistroServlet.java</file>
+            <file>file:/D:/NetBeansClassK/Proyecto1/web/crear-evento.jsp</file>
+            <file>file:/D:/NetBeansClassK/Proyecto1/src/java/servlets/pckg/myapp/CrearEventoServlet.java</file>
+            <file>file:/D:/NetBeansClassK/Proyecto1/src/java/dao/pckg/myapp/ReservaDAO.java</file>
             <file>file:/D:/NetBeansClassK/Proyecto1/src/java/dao/pckg/myapp/EventoDAO.java</file>
-            <file>file:/D:/NetBeansClassK/Proyecto1/src/java/servlets/pckg/myapp/AdminServlet.java</file>
         </group>
     </open-files>
 </project-private>

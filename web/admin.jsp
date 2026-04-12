@@ -70,7 +70,7 @@
                         <td>₡<%= e.getPrecio() %></td>
                         <td><%= e.getEntradasDisponibles() %> / <%= e.getEntradasTotales() %></td>
                         <td>
-                            <a href="editar-evento.jsp?id=<%= e.getIdEvento() %>"
+                            <a href="EditarEventoServlet?id=<%= e.getIdEvento() %>"
                                class="btn btn-sm btn-warning">Editar</a>
                             <a href="EliminarEventoServlet?id=<%= e.getIdEvento() %>"
                                class="btn btn-sm btn-danger ms-1"

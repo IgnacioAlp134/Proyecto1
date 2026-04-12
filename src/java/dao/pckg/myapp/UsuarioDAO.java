@@ -6,13 +6,8 @@ import java.sql.ResultSet;
 
 public class UsuarioDAO {
 
-    private Conexion con;
-
-    public UsuarioDAO() {
-        con = new Conexion();
-    }
-
     public boolean registrar(Usuario u) {
+        Conexion con = new Conexion();
         try {
             String sqlCheck = "SELECT * FROM Usuarios WHERE correo='" + u.getCorreo() + "'";
             ResultSet rs = con.ExecuteQuery(sqlCheck);
@@ -31,7 +26,6 @@ public class UsuarioDAO {
                     + u.getNombre() + "', '"
                     + u.getCorreo() + "', '"
                     + u.getContrasena() + "', 'usuario')";
-
             con.ExecuteUpdate(sql);
             return true;
 
@@ -44,23 +38,28 @@ public class UsuarioDAO {
     }
 
     public Usuario login(String correo, String contrasena) {
-        try {
-            String sql = "SELECT * FROM Usuarios WHERE correo='" + correo + "' AND contrasena='" + contrasena + "'";
-            ResultSet rs = con.ExecuteQuery(sql);
+    Conexion con = new Conexion();
+    try {
+        String sql = "SELECT * FROM Usuarios WHERE correo='" + correo + "' AND contrasena='" + contrasena + "'";
+        System.out.println("SQL: " + sql);
+        ResultSet rs = con.ExecuteQuery(sql);
 
-            if (rs != null && rs.next()) {
-                Usuario u = new Usuario();
-                u.setIdUsuario(rs.getInt("id_usuario"));
-                u.setNombre(rs.getString("nombre"));
-                u.setCorreo(rs.getString("correo"));
-                u.setRol(rs.getString("rol"));
-                return u;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            con.Close();
+        if (rs != null && rs.next()) {
+            System.out.println("ROL: " + rs.getString("rol"));
+            Usuario u = new Usuario();
+            u.setIdUsuario(rs.getInt("id_usuario"));
+            u.setNombre(rs.getString("nombre"));
+            u.setCorreo(rs.getString("correo"));
+            u.setRol(rs.getString("rol"));
+            return u;
+        } else {
+            System.out.println("No encontró el usuario");
         }
-        return null;
+    } catch (Exception e) {
+        e.printStackTrace();
+    } finally {
+        con.Close();
     }
+    return null;
+}
 }

@@ -1,16 +1,15 @@
 package servlets.pckg.myapp;
 
-import dao.pckg.myapp.EventoDAO;
-import modelos.pckg.myapp.Evento;
+import dao.pckg.myapp.ReservaDAO;
+import modelos.pckg.myapp.Reserva;
 import modelos.pckg.myapp.Usuario;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import java.io.IOException;
-import java.util.ArrayList;
 
-@WebServlet("/AdminServlet")
-public class AdminServlet extends HttpServlet {
+@WebServlet("/ReservaServlet")
+public class ReservaServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -18,16 +17,28 @@ public class AdminServlet extends HttpServlet {
         HttpSession session = request.getSession(false);
         Usuario usuario = (Usuario) session.getAttribute("usuario");
 
-        if (usuario == null || !usuario.getRol().equals("Administrador")) {
+        if (usuario == null) {
             response.sendRedirect("login.jsp");
             return;
         }
 
-        EventoDAO dao = new EventoDAO();
-        ArrayList<Evento> eventos = dao.listar();
+        int idEvento = Integer.parseInt(request.getParameter("idEvento"));
+        int cantidad = Integer.parseInt(request.getParameter("cantidad"));
 
-        request.setAttribute("eventos", eventos);
-        request.getRequestDispatcher("admin.jsp").forward(request, response);
+        Reserva r = new Reserva();
+        r.setIdUsuario(usuario.getIdUsuario());
+        r.setIdEvento(idEvento);
+        r.setCantidad(cantidad);
+
+        ReservaDAO dao = new ReservaDAO();
+        boolean exito = dao.insertar(r);
+
+        if (exito) {
+            response.sendRedirect("MisReservasServlet");
+        } else {
+            request.setAttribute("error", "No hay suficientes entradas disponibles");
+            request.getRequestDispatcher("EventoDetalleServlet?id=" + idEvento).forward(request, response);
+        }
     }
 
     @Override

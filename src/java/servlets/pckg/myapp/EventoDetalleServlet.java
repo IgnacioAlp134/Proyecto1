@@ -7,10 +7,9 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import java.io.IOException;
-import java.util.ArrayList;
 
-@WebServlet("/AdminServlet")
-public class AdminServlet extends HttpServlet {
+@WebServlet("/EventoDetalleServlet")
+public class EventoDetalleServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -18,16 +17,18 @@ public class AdminServlet extends HttpServlet {
         HttpSession session = request.getSession(false);
         Usuario usuario = (Usuario) session.getAttribute("usuario");
 
-        if (usuario == null || !usuario.getRol().equals("Administrador")) {
+        if (usuario == null) {
             response.sendRedirect("login.jsp");
             return;
         }
 
-        EventoDAO dao = new EventoDAO();
-        ArrayList<Evento> eventos = dao.listar();
+        int id = Integer.parseInt(request.getParameter("id"));
 
-        request.setAttribute("eventos", eventos);
-        request.getRequestDispatcher("admin.jsp").forward(request, response);
+        EventoDAO dao = new EventoDAO();
+        Evento e = dao.obtenerPorId(id);
+
+        request.setAttribute("evento", e);
+        request.getRequestDispatcher("evento-detalle.jsp").forward(request, response);
     }
 
     @Override

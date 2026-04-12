@@ -17,15 +17,20 @@ public class LoginServlet extends HttpServlet {
         String email    = request.getParameter("correo");
         String password = request.getParameter("contrasena");
 
+        System.out.println("EMAIL: " + email);
+        System.out.println("PASSWORD: " + password);
+
         UsuarioDAO dao = new UsuarioDAO();
         Usuario usuario = dao.login(email, password);
+
+        System.out.println("USUARIO: " + (usuario != null ? usuario.getRol() : "null"));
 
         if (usuario != null) {
             HttpSession session = request.getSession();
             session.setAttribute("usuario", usuario);
             session.setAttribute("rol", usuario.getRol());
 
-            if (usuario.getRol().equals("administrador")) {
+            if (usuario.getRol().equals("Administrador")) {
                 response.sendRedirect("AdminServlet");
             } else {
                 response.sendRedirect("EventosServlet");

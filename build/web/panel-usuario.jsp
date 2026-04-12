@@ -20,9 +20,9 @@
         .card { border: none; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.1); }
         .btn-primary { background-color: #2c3e50; border: none; }
         .btn-primary:hover { background-color: #1a252f; }
-        .badge-activa { background-color: #27ae60; }
-        .badge-cancelada { background-color: #e74c3c; }
-        .badge-modificada { background-color: #e67e22; }
+        .badge-activa { background-color: #27ae60; color: #fff; padding: 3px 8px; border-radius: 6px; font-size: 12px; }
+        .badge-cancelada { background-color: #e74c3c; color: #fff; padding: 3px 8px; border-radius: 6px; font-size: 12px; }
+        .badge-modificada { background-color: #e67e22; color: #fff; padding: 3px 8px; border-radius: 6px; font-size: 12px; }
     </style>
 </head>
 <body>
@@ -36,7 +36,13 @@
 </nav>
 
 <div class="container py-4">
-    <h4 class="mb-4">Mis reservas</h4>
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h4 class="mb-0">Mis reservas</h4>
+        <button class="btn btn-sm btn-outline-secondary" onclick="toggleCanceladas()">
+            Ocultar canceladas
+        </button>
+    </div>
 
     <% if (request.getAttribute("exito") != null) { %>
         <div class="alert alert-success"><%= request.getAttribute("exito") %></div>
@@ -53,6 +59,7 @@
                     <tr>
                         <th>Código</th>
                         <th>Evento</th>
+                        <th>Zona</th>
                         <th>Cantidad</th>
                         <th>Fecha reserva</th>
                         <th>Estado</th>
@@ -62,23 +69,23 @@
                 <tbody>
                 <%
                     for (Reserva r : reservas) {
+                        String fila = r.getEstado().equals("cancelada") ? "fila-cancelada" : "";
                 %>
-                    <tr>
+                    <tr class="<%= fila %>">
                         <td><%= r.getCodigoConfirmacion() %></td>
-                        <td><%= r.getIdEvento() %></td>
+                        <td><%= r.getNombreEvento() %></td>
+                        <td><%= r.getZona() != null ? r.getZona() : "-" %></td>
                         <td><%= r.getCantidad() %></td>
                         <td><%= r.getFechaReserva() %></td>
                         <td>
-                            <span class="badge badge-<%= r.getEstado() %>">
-                                <%= r.getEstado() %>
-                            </span>
+                            <span class="badge-<%= r.getEstado() %>"><%= r.getEstado() %></span>
                         </td>
                         <td>
-                            <% if (r.getEstado().equals("activa")) { %>
+                            <% if (r.getEstado().equals("activa") || r.getEstado().equals("modificada")) { %>
                                 <a href="CancelarReservaServlet?id=<%= r.getIdReserva() %>"
                                    class="btn btn-sm btn-danger"
                                    onclick="return confirm('¿Cancelar esta reserva?')">Cancelar</a>
-                                <a href="modificar-reserva.jsp?id=<%= r.getIdReserva() %>"
+                                <a href="ModificarReservaServlet?id=<%= r.getIdReserva() %>"
                                    class="btn btn-sm btn-warning ms-1">Modificar</a>
                             <% } %>
                         </td>
@@ -97,6 +104,17 @@
         </div>
     <% } %>
 </div>
+
+<script>
+let mostrando = true;
+function toggleCanceladas() {
+    const filas = document.querySelectorAll('.fila-cancelada');
+    mostrando = !mostrando;
+    filas.forEach(f => f.style.display = mostrando ? '' : 'none');
+    document.querySelector('button[onclick="toggleCanceladas()"]').textContent =
+        mostrando ? 'Ocultar canceladas' : 'Mostrar canceladas';
+}
+</script>
 
 </body>
 </html>

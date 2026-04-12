@@ -1,16 +1,14 @@
 package servlets.pckg.myapp;
 
 import dao.pckg.myapp.EventoDAO;
-import modelos.pckg.myapp.Evento;
 import modelos.pckg.myapp.Usuario;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import java.io.IOException;
-import java.util.ArrayList;
 
-@WebServlet("/AdminServlet")
-public class AdminServlet extends HttpServlet {
+@WebServlet("/EliminarEventoServlet")
+public class EliminarEventoServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -23,11 +21,12 @@ public class AdminServlet extends HttpServlet {
             return;
         }
 
-        EventoDAO dao = new EventoDAO();
-        ArrayList<Evento> eventos = dao.listar();
+        int idEvento = Integer.parseInt(request.getParameter("id"));
 
-        request.setAttribute("eventos", eventos);
-        request.getRequestDispatcher("admin.jsp").forward(request, response);
+        EventoDAO dao = new EventoDAO();
+        dao.eliminar(idEvento);
+
+        response.sendRedirect("AdminServlet");
     }
 
     @Override
