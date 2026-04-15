@@ -46,4 +46,6 @@ DESCRIBE Eventos;
 
 ALTER TABLE Eventos ADD COLUMN categoria VARCHAR(50) NOT NULL DEFAULT 'Deportes';
 
-
+ALTER TABLE Reservas 
+ADD CONSTRAINT fk_usuario FOREIGN KEY (id_usuario) REFERENCES Usuarios(id_usuario),
+ADD CONSTRAINT fk_evento FOREIGN KEY (id_evento) REFERENCES Eventos(id_evento);

@@ -112,13 +112,16 @@ public class EventoDAO {
     }
 
     public void eliminar(int id) {
-        Conexion con = new Conexion();
-        try {
-            con.ExecuteUpdate("DELETE FROM Eventos WHERE id_evento=" + id);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        } finally {
-            con.Close();
-        }
+    Conexion con = new Conexion();
+    try {
+        // Primero eliminar las reservas asociadas
+        con.ExecuteUpdate("DELETE FROM Reservas WHERE id_evento=" + id);
+        // Luego eliminar el evento
+        con.ExecuteUpdate("DELETE FROM Eventos WHERE id_evento=" + id);
+    } catch (Exception ex) {
+        ex.printStackTrace();
+    } finally {
+        con.Close();
     }
+   }
 }

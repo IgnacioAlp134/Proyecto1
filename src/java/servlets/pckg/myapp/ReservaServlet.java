@@ -25,10 +25,14 @@ public class ReservaServlet extends HttpServlet {
         int idEvento = Integer.parseInt(request.getParameter("idEvento"));
         int cantidad = Integer.parseInt(request.getParameter("cantidad"));
 
+       
+        String zona = request.getParameter("zona");
+
         Reserva r = new Reserva();
         r.setIdUsuario(usuario.getIdUsuario());
         r.setIdEvento(idEvento);
         r.setCantidad(cantidad);
+        r.setZona(zona); 
 
         ReservaDAO dao = new ReservaDAO();
         boolean exito = dao.insertar(r);
